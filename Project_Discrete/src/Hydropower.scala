@@ -7,7 +7,8 @@ import java.util.Vector
 import javax.swing.{JFrame, JScrollPane, JTable}
 
 class Hydropower(eType: String) extends RE {
-
+  
+  //Override the method status(status: String) of the trait
   override def status(status: String): String = {
     println(s"The current status is $status MW")
     println("Please select an water rate to adjust:")
@@ -25,9 +26,11 @@ class Hydropower(eType: String) extends RE {
     }
     return newStatus
   }
-
+  
+  //Heritage the method from the trait
   override def adjust(equipmentType: String, f: String => String): Unit = super.adjust(equipmentType, status)
 
+  //Override the method view() of the trait
   override def view(): Unit = {
     val filePower = "src/PowerData.csv"
     val file = new File("")
