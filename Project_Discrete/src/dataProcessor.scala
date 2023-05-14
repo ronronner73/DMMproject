@@ -116,14 +116,17 @@ object dataProcessor {
 
 
   def dataHandleCenter(): Unit = {
+    //function dataHandle is to get the user selections of energy type and the kinid of sort, filter the data according to selections and analyze data
     dataHandle()
     def dataHandle(): Unit = {
+      //get user selections
       println("Select an energy type you want to filter:\n 1.Wind Turbine\n 2.Solar Panel\n 3.Hydropower")
       val energy = StdIn.readInt()
       println("select what kind of sort you want:\n 1.Every Hour\n 2.Every Day\n 3.Every Week\n 4.Every Month")
       val select = StdIn.readInt()
       println("What analysis do you want:\n 1.Average\n 2.Middle\n 3.Mode\n 4.Range\n 5.Midrange")
       val ope = StdIn.readInt()
+      //if selections is not valid, it will print error message and return back
       if ((energy != 1 && energy != 2 && energy != 3) || (select != 1 && select != 2 && select != 3 && select != 4) || (ope != 1 && ope != 2 && ope != 3 && ope != 4 && ope != 5)) {
         println("Your input is not in the requirement!")
         dataHandle()
@@ -132,17 +135,20 @@ object dataProcessor {
         val list = filterData(column, select)
         dataAnalyze(ope, list)
       }
+      //ask if user want to continue
       val repeat = repeatOrNot("Do you want to continue analysis? (y/n): ")
       if (repeat) {
         dataHandle()
       }
     }
-
+    //filterData will filter data by hour/day/week/month
     def filterData(column: Int, select: Int): List[Double] = {
       val lines = Source.fromFile(fName).getLines().toList
       val dataColumn = lines.drop(1).map(_.split(",")(column).toDouble)
+      //get data from file and then change the time column from String to time form
       val dateFormat = DateTimeFormatter.ofPattern("yyyy/M/d H:mm")
-
+      
+      //filter by hours
       if (select == 1) {
         val hourData = lines.drop(1).zipWithIndex.foldLeft(Map.empty[Int, Double].withDefaultValue(0.0)) { (acc, lineIndex) =>
           val (line, index) = lineIndex
@@ -155,7 +161,7 @@ object dataProcessor {
         val hours = hourData.toList.sortBy(_._1)
         val hourList = hours.map(_._2)
         hourList
-      } else if (select == 2) {
+      } else if (select == 2) {//filter by day
         val dayliyData = lines.drop(1).zipWithIndex.foldLeft(Map.empty[Int, Double].withDefaultValue(0.0)) { (acc, lineIndex) =>
           val (line, index) = lineIndex
           val dateStr = line.split(",")(0)
@@ -167,7 +173,7 @@ object dataProcessor {
         val days = dayliyData.toList.sortBy(_._1)
         val dayList = days.map(_._2)
         dayList
-      } else if (select == 3) {
+      } else if (select == 3) {//filter by week
         val weeklyData = lines.drop(1).zipWithIndex.foldLeft(Map.empty[Int, Double].withDefaultValue(0.0)) { (acc, lineIndex) =>
           val (line, index) = lineIndex
           val dateStr = line.split(",")(0)
@@ -179,7 +185,7 @@ object dataProcessor {
         val weeks = weeklyData.toList.sortBy(_._1)
         val weekList = weeks.map(_._2)
         weekList
-      } else {
+      } else {//filter by month
         val monthlyData = lines.drop(1).foldLeft(Map.empty[String, Double].withDefaultValue(0.0)) { (acc, line) =>
           val dateStr = line.split(",")(0)
           val date = LocalDate.parse(dateStr, dateFormat)
@@ -192,7 +198,8 @@ object dataProcessor {
         monthList
       }
     }
-
+    
+    //dataAnalyze it to analyze data to calculate their average/middle/mode/range/midrange by the selection of user
     def dataAnalyze(i: Int, list: List[Double]): Any = {
       if (i == 1) {
         val avg = average(list)
@@ -211,11 +218,12 @@ object dataProcessor {
         println("The midrange is "+midran)
       }
     }
-
+    
+    //calculate average
     def average(input: List[Double]): Double = {
       input.sum / input.length
     }
-
+    //calcultae middle
     def middle(input: List[Double]): Double = {
       val sortedList = input.sorted
       val middleIndex = sortedList.length / 2
@@ -227,20 +235,20 @@ object dataProcessor {
         sortedList(middleIndex)
       }
     }
-
+    //calculate mode
     def mode(list: List[Double]): List[Double] = {
       val frequencyMap = list.groupBy(identity).mapValues(_.size)
       val maxFrequency = frequencyMap.values.max
       val modes = frequencyMap.filter { case (_, frequency) => frequency == maxFrequency }.keys.toList
       modes
     }
-
+    //calculate range
     def range(list: List[Double]): Double = {
       val sortedList = list.sorted
       val difference = sortedList.last - sortedList.head
       difference
     }
-
+    //calculate midrange
     def midrange(list: List[Double]): Double = {
       val min = list.min
       val max = list.max
