@@ -7,6 +7,7 @@ object dataProcessor {
   val fName = "src/PowerData.csv"
 
   def collection(): Unit = {
+    //Read the data files of three different renewable energy sources separately. and merge the data to write in a new file.
 
     val file1 = "src/wind.csv"
     val file2 = "src/solar.csv"
@@ -45,6 +46,9 @@ object dataProcessor {
   }
 
   def dataDetecting(): Unit = {
+    //For the detection and treatment of renewable energy sources.
+    //Allows the user to select the type of generation to be detected and to specify minimum standards.
+    
     process()
     def process(): Unit = {
       try {
