@@ -6,7 +6,7 @@ import scala.util.Try
 import java.util.Vector
 
 class SolarPanel(eType: String) extends RE {
-
+  //Override the method status(status: String) of the trait
   override def status(status: String): String  = {
     println(s"The current status is $status degree")
     println("Please select an angle to adjust:")
@@ -29,8 +29,10 @@ class SolarPanel(eType: String) extends RE {
     return newStatus
   }
 
+  //Heritage the method from the trait
   override def adjust(eType: String, f: String => String): Unit = super.adjust(eType, status)
-
+  
+  //Override the method view() of the trait
   override def view(): Unit = {
     val filePower = "src/PowerData.csv"
     val file = new File("")
