@@ -1,9 +1,11 @@
 import java.io.{File, PrintWriter}
 
 trait RE {
-
+  //Define the abstract method status() and view()
   def status(s: String): String
   def view(): Unit
+  
+  //The method to adjust the status of equipment
   def adjust(equipmentType: String, f: String => String): Unit = {
     val file = new File("")
     val project_path = file.getAbsolutePath()
