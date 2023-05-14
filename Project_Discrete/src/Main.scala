@@ -1,7 +1,8 @@
 import scala.io.StdIn
 
 object Main {
-
+  
+  //The menu to determine whether to monitor equipment or control equipment
   def monitorOrControl(): Unit = {
     println("Please choose an option:")
     println("1. Monitor equipment")
@@ -11,12 +12,12 @@ object Main {
     choice2 match {
       case 1 =>
         println("Monitoring equipment...")
-        energyMonitor.monitor()
+        energyMonitor.monitor() //call the method monitor() in object energyMonitor
         monitorOrControl()
       case 2 =>
         println("Controlling equipment...")
         try{
-          energyMonitor.control()
+          energyMonitor.control() //call the method control() in object energyMonitor
         }catch{
           case e:IllegalArgumentException => println(e.getMessage)
         }
@@ -28,7 +29,8 @@ object Main {
         monitorOrControl()
     }
   }
-
+  
+  //The menu to determine whether to adjust the equipment status
   def adjust_menu(): Int = {
     println("Do you want to adjust the status?")
     println("1. Yes")
@@ -37,9 +39,10 @@ object Main {
     return choice3
   }
 
-
+  //The menu to determine which type to check view
   def view_menu(): Unit = {
-    val s = new SolarPanel("Solar Panel")
+    //Create the instance of these three classes
+    val s = new SolarPanel("Solar Panel") 
     val w = new WindTurbine("Wind Turbine")
     val h = new Hydropower("Hydropower")
 
@@ -51,7 +54,7 @@ object Main {
     val choice3 = StdIn.readInt()
     choice3 match {
       case 1 =>
-        s.view()
+        s.view() //Call the method view() of the class solar panel
         val select = adjust_menu()
         select match {
           case 1 =>
@@ -60,7 +63,7 @@ object Main {
         }
         view_menu()
       case 2 =>
-        w.view()
+        w.view() //Call the method view() of the class wind turbine
         val select = adjust_menu()
         select match {
           case 1 =>
@@ -69,7 +72,7 @@ object Main {
         }
         view_menu()
       case 3 =>
-        h.view()
+        h.view() //Call the method view() of the class hydropower
         val select = adjust_menu()
         select match {
           case 1 =>
