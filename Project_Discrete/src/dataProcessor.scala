@@ -98,6 +98,7 @@ object dataProcessor {
       val source = Source.fromFile(fileName)
       try {
         val lines = source.getLines().toList
+        //Read data and remove header row
         lines.drop(1).map(_.split(",").toList)
       } finally {
         source.close()
