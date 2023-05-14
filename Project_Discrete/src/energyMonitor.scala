@@ -2,7 +2,8 @@ import java.io._
 import scala.io._
 import scala.util.{Failure, Success, Try}
 object energyMonitor {
-
+  
+  //The method to monitor the information of equipment
   def monitor(): Unit = {
     val file = new File("")
     val project_path = file.getAbsolutePath()
@@ -44,7 +45,8 @@ object energyMonitor {
 
     }
   }
-
+  
+  //The method to control the running number of the equipment
   def control(): Unit = {
     val file = new File("")
     val project_path = file.getAbsolutePath()
