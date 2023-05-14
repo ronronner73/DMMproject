@@ -66,6 +66,7 @@ object dataProcessor {
         if (filteredData.nonEmpty) {
           filteredData.foreach(row => {
             val selectedRowData = s"StartTime(UTC): ${row.head}, EndTime(UTC): ${row(1)}, MWh/h: ${row(selectedColumn)}"
+            //Automatically determines machine failure and reports a warning if any data falls below 0
             if (row(selectedColumn).toDouble < 0) {
               println(s"- ${selectedRowData} \n- WARNING: data less than zero, equipment malfunction.")
             } else {
