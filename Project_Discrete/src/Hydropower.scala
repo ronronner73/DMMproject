@@ -45,6 +45,8 @@ class Hydropower(eType: String) extends RE {
     UIview()
 
     def UIview() = {
+      //Create a table view with the fetched data.
+      
       val data = new Vector[Vector[String]]()
       data.add(new Vector[String](java.util.Arrays.asList("Power generated in the last hour", lines.last.split(",")(4) + " MWh/h")))
       data.add(new Vector[String](java.util.Arrays.asList(s"Number of $eType in operation", s"$running")))
@@ -53,6 +55,8 @@ class Hydropower(eType: String) extends RE {
       data.add(new Vector[String](java.util.Arrays.asList("Storage capacity", "1000 MWh")))
 
       val columnNames = new Vector[String](java.util.Arrays.asList("Description", "Value"))
+      
+      //Some formats are prescribed for aesthetic purposes.
       val table = new JTable(data, columnNames) {
         setFont(new Font("Arial", Font.PLAIN, 16))
         setRowHeight(25)
